@@ -2,6 +2,9 @@
 set -e # Good practice: exit script if any command fails.
 
 # This script runs as root  # Correct assumption based on Dockerfile changes.
+echo "Entrypoint: Setting up virtual audio for headless environment..."
+/setup_virtual_audio.sh
+
 echo "Entrypoint: Ensuring cache directory ownership for user appuser (1001)..." # Informative log.
 
 # Ensure the target directories exist. Runs as root, so has permission.

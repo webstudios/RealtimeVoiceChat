@@ -85,6 +85,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     g++ \
     curl \
     gosu \
+    alsa-utils \
+    pulseaudio \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -163,7 +165,8 @@ RUN mkdir -p /home/appuser/.cache && \
 
 # Copy and set permissions for entrypoint script
 COPY --chown=1001:1001 entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY --chown=1001:1001 setup_virtual_audio.sh /setup_virtual_audio.sh
+RUN chmod +x /entrypoint.sh && chmod +x /setup_virtual_audio.sh
 
 # --- REMOVED USER appuser --- The container will start as root.
 
@@ -185,6 +188,10 @@ ENV DS_BUILD_UTILS=0
 ENV DS_BUILD_TRANSFORMER=1
 ENV HF_HOME=${HOME}/.cache/huggingface
 ENV TORCH_HOME=${HOME}/.cache/torch
+ENV PULSE_RUNTIME_PATH=/tmp
+ENV PULSE_STATE_PATH=/tmp
+ENV PULSE_COOKIE_FILE=/tmp/pulse-cookie
+ENV SDL_AUDIODRIVER=pulse
 
 # Expose the port the FastAPI application runs on
 EXPOSE 8000

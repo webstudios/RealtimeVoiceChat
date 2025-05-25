@@ -104,20 +104,35 @@ class AudioProcessor:
         # Dynamically load and configure the selected TTS engine
         if engine == "coqui":
             ensure_lasinya_models(models_root="models", model_name="Lasinya")
-            self.engine = CoquiEngine(
-                specific_model="Lasinya",
-                local_models_path="./models",
-                voice="reference_audio.wav",
-                speed=1.1,
-                use_deepspeed=True,
-                thread_count=6,
-                stream_chunk_size=self.current_stream_chunk_size,
-                overlap_wav_len=1024,
-                load_balancing=True,
-                load_balancing_buffer_length=0.5,
-                load_balancing_cut_off=0.1,
-                add_sentence_filter=True,
-            )
+            try:
+                self.engine = CoquiEngine(
+                    specific_model="Lasinya",
+                    local_models_path="./models",
+                    voice="reference_audio.wav",
+                    speed=1.1,
+                    use_deepspeed=True,
+                    thread_count=6,
+                    stream_chunk_size=self.current_stream_chunk_size,
+                    overlap_wav_len=1024,
+                    load_balancing=True,
+                    load_balancing_buffer_length=0.5,
+                    load_balancing_cut_off=0.1,
+                    add_sentence_filter=True,
+                )
+            except Exception as e:
+                logger.error(f"👄❌ Failed to initialize Coqui engine: {e}")
+                logger.info("👄🔄 Falling back to Kokoro engine for headless environment")
+                self.engine_name = "kokoro"
+                self.engine = KokoroEngine(
+                    voice="af_heart",
+                    default_speed=1.26,
+                    trim_silence=True,
+                    silence_threshold=0.01,
+                    extra_start_ms=25,
+                    extra_end_ms=15,
+                    fade_in_ms=15,
+                    fade_out_ms=10,
+                )
         elif engine == "kokoro":
             self.engine = KokoroEngine(
                 voice="af_heart",
