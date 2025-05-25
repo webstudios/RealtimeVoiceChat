@@ -1,3 +1,8 @@
+# PyTorch with CUDA support (install first)
+torch==2.3.1+cu121
+torchaudio==2.3.1+cu121
+transformers==4.38.2
+
 # speech to text and text to speech
 realtimestt==0.3.104
 realtimetts[kokoro,coqui,orpheus]==0.5.5

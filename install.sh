@@ -47,7 +47,7 @@ pip install deepspeed
 
 # Verify key dependencies
 echo "Verifying installed dependencies..."
-pip list | grep -E "RealtimeSTT|RealtimeTTS|fastapi|uvicorn|websockets|ollama|deepspeed"
+pip list | grep -E "torch|transformers|RealtimeSTT|RealtimeTTS|fastapi|uvicorn|websockets|ollama|deepspeed"
 
 # Install Ollama
 echo "Installing Ollama..."
