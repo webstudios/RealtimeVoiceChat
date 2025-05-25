@@ -39,6 +39,7 @@ source venv/bin/activate
 # Upgrade pip and install Python dependencies
 echo "Installing Python dependencies..."
 pip install --upgrade pip
+pip install torch==2.3.1+cu121 torchaudio==2.3.1+cu121 --index-url https://download.pytorch.org/whl/cu121
 pip install -r requirements.txt
 
 # Install deepspeed (required for RealtimeTTS with Coqui TTS)
