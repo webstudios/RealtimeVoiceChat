@@ -69,7 +69,7 @@ fi
 
 # Pull a smaller LLM model to reduce latency
 echo "Pulling LLM model (gemma2:2b for faster inference)..."
-ollama pull hf.co/bartowski/huihui-ai_Mistral-Small-24B-Instruct-2501-abliterated-GGUF:Q4_K_M
+ollama pull gemma2:2b
 
 # Stop Ollama server after pulling
 OLLAMA_PID=$(netstat -tulnp 2>/dev/null | grep 11434 | awk '{print $7}' | cut -d'/' -f1)
